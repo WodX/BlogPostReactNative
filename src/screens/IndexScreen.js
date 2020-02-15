@@ -11,7 +11,7 @@ const IndexScreen = () => {
             <Button
                 title = "click"
                 onPress = {
-                    blogPosts.addBlogPost}
+                    () => blogPosts.addBlogPost()}
             />
             <FlatList
                 data={blogPosts.data}

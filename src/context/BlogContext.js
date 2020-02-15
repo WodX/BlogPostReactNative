@@ -1,6 +1,6 @@
-import React, { useState } from 'react'
+import React, { useState, createContext } from 'react'
 
-const BlogContext = React.createContext();
+const BlogContext = createContext();
 
 
 export const BlogProvider = ({children}) => {
