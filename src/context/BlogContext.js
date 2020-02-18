@@ -6,8 +6,10 @@ const blogReducer = (state, action) => {
             return [...state, { id: Math.floor(Math.random() * 99999), title: action.payload.title, content: action.payload.content}];
         case 'rm_blogpost':
             return state.filter( blogPost => blogPost.id !== action.payload );
-        case 'add_blogpost':
-            //something to do 
+        case 'edit_blogpost':
+            return state.map((blogPost) => {
+                return blogPost.id === action.payload.id ? action.payload : blogPost;
+            }); 
         default:
             return state;
     }
@@ -16,14 +18,14 @@ const blogReducer = (state, action) => {
 const addBlogPost = dispatch => {
     return (title, content, callback) => { 
         dispatch({ type: 'add_blogpost', payload: { title, content } });
-        callback();
+        if(callback) callback();
     };
 };
 
 const editBlogPost = dispatch => {
-    return (title, content, callback) => { 
-        dispatch({ type: 'edit_blogpost', payload: { title, content } });
-        callback();
+    return (id, title, content, callback) => { 
+        dispatch({ type: 'edit_blogpost', payload: { id, title, content } });
+        if(callback) callback();
     };
 };
 
@@ -31,5 +33,5 @@ const deleteBlogPost = dispatch => {
     return (id) => { dispatch({ type: 'rm_blogpost', payload: id }) };
 }
 
-export const { Context, Provider } = createDataContext(blogReducer, { addBlogPost, deleteBlogPost },
+export const { Context, Provider } = createDataContext(blogReducer, { addBlogPost, editBlogPost, deleteBlogPost },
     [{id: 1, title: "hello", content: "my content" }]);
